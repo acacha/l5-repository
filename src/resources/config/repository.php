@@ -220,6 +220,7 @@ return [
     */
     'generator'  => [
         'basePath'      => app_path(),
+        'databasePath'  => database_path(),
         'rootNamespace' => 'App\\',
         'stubsOverridePath' => app_path(),
         'paths'         => [

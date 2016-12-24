@@ -28,9 +28,8 @@ class MigrationGenerator extends Generator
      */
     public function getBasePath()
     {
-        return base_path() . '/database/migrations/';
+        return config('repository.generator.databasePath', database_path()) . '/migrations/';
     }
-
 
     /**
      * Get destination path for generated file.
