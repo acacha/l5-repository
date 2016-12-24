@@ -1,9 +1,14 @@
 {
-  "name": "prettus/l5-repository",
-  "description": "Laravel 5 - Repositories to  the database layer",
-  "keywords": ["laravel", "repository", "eloquent", "model", "cache"],
+  "name": "acacha/l5-repository",
+  "description": "Laravel 5 - Repositories to the database layer. Based on prettus/l5-repository",
+  "keywords": ["laravel", "repository", "eloquent", "model", "cache","acacha"],
   "license": "MIT",
   "authors": [
+    {
+      "name": "Sergi Tur Badenas",
+      "email": "sergiturbadenas@gmail.com",
+      "role": "Developer"
+    },
     {
       "name": "Anderson Andrade",
       "email": "contato@andersonandra.de",
@@ -11,10 +16,10 @@
     }
   ],
   "support": {
-    "email": "contato@andersonandra.de",
-    "issues":"https://github.com/andersao/l5-repository/issues",
-    "wiki":"https://github.com/andersao/l5-repository",
-    "source":"https://github.com/andersao/l5-repository"
+    "email": "sergiturbadenas@gmail.com",
+    "issues":"https://github.com/acacha/l5-repository/issues",
+    "wiki":"https://github.com/acacha/l5-repository",
+    "source":"https://github.com/acacha/l5-repository"
   },
   "require": {
     "illuminate/http": "~5.0",
