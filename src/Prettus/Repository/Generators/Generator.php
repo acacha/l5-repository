@@ -8,8 +8,7 @@ use Illuminate\Support\Str;
 
 abstract class Generator
 {
-
-    use AppNamespaceDetectorTrait;
+    use NamespaceDetectorTrait, HasPaths;
 
     /**
      * The filesystem instance.
@@ -164,70 +163,6 @@ abstract class Generator
     {
         return explode('/', $this->getName());
     }
-
-
-    /**
-     * Get root namespace.
-     *
-     * @return string
-     */
-    public function getRootNamespace()
-    {
-        return config('repository.generator.rootNamespace', $this->getAppNamespace());
-    }
-
-
-    /**
-     * Get class-specific output paths.
-     *
-     * @param $class
-     *
-     * @return string
-     */
-    public function getConfigGeneratorClassPath($class, $directoryPath = false)
-    {
-        switch ($class) {
-            case ('models' === $class):
-                $path = config('repository.generator.paths.models', 'Entities');
-                break;
-            case ('repositories' === $class):
-                $path = config('repository.generator.paths.repositories', 'Repositories');
-                break;
-            case ('interfaces' === $class):
-                $path = config('repository.generator.paths.interfaces', 'Repositories');
-                break;
-            case ('presenters' === $class):
-                $path = config('repository.generator.paths.presenters', 'Presenters');
-                break;
-            case ('transformers' === $class):
-                $path = config('repository.generator.paths.transformers', 'Transformers');
-                break;
-            case ('validators' === $class):
-                $path = config('repository.generator.paths.validators', 'Validators');
-                break;
-            case ('controllers' === $class):
-                $path = config('repository.generator.paths.controllers', 'Http\Controllers');
-                break;
-            case ('provider' === $class):
-                $path = config('repository.generator.paths.provider', 'RepositoryServiceProvider');
-                break;
-            case ('criteria' === $class):
-                $path = config('repository.generator.paths.criteria', 'Criteria');
-                break;
-            default:
-                $path = '';
-        }
-
-        if ($directoryPath) {
-            $path = str_replace('\\', '/', $path);
-        } else {
-            $path = str_replace('/', '\\', $path);
-        }
-        
-
-        return $path;
-    }
-
 
     abstract public function getPathConfigNode();
 

@@ -91,7 +91,7 @@ class ControllerGenerator extends Generator
             'singular'   => $this->getSingularName(),
             'validator'  => $this->getValidator(),
             'repository' => $this->getRepository(),
-            'appname'    => $this->getAppNamespace(),
+            'namespace'  => $this->getRootNamespace(),
         ]);
     }
 

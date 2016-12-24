@@ -49,6 +49,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->commands('Prettus\Repository\Generators\Commands\ControllerCommand');
         $this->commands('Prettus\Repository\Generators\Commands\BindingsCommand');
         $this->commands('Prettus\Repository\Generators\Commands\CriteriaCommand');
+        $this->commands('Prettus\Repository\Generators\Commands\RequestMakeCommand');
         $this->app->register('Prettus\Repository\Providers\EventServiceProvider');
     }
 
