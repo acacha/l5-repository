@@ -1,6 +1,6 @@
 <?php
 
-$NAMESPACE$
+namespace $NAMESPACE$;
 
 use Illuminate\Http\Request;
 
