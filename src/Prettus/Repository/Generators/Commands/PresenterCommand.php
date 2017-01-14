@@ -49,7 +49,7 @@ class PresenterCommand extends Command
             $this->info("Presenter created successfully.");
 
             if (!\File::exists(app_path() . '/Transformers/' . $this->argument('name') . 'Transformer.php')) {
-                if ($this->confirm('Would you like to create a Transformer? [y|N]')) {
+                if ($this->option('yes') || $this->confirm('Would you like to create a Transformer? [y|N]')) {
                     (new TransformerGenerator([
                         'name'  => $this->argument('name'),
                         'force' => $this->option('force'),
@@ -96,6 +96,13 @@ class PresenterCommand extends Command
                 'f',
                 InputOption::VALUE_NONE,
                 'Force the creation if file already exists.',
+                null
+            ],
+            [
+                'yes',
+                'y',
+                InputOption::VALUE_NONE,
+                'Answers yes to all.',
                 null
             ]
         ];

@@ -36,16 +36,16 @@ class EntityCommand extends Command
      */
     public function fire()
     {
-
-        if ($this->confirm('Would you like to create a Presenter? [y|N]')) {
+        if ($this->option('yes') || $this->confirm('Would you like to create a Presenter? [y|N]')) {
             $this->call('make:presenter', [
                 'name'    => $this->argument('name'),
                 '--force' => $this->option('force'),
+                '--yes' => $this->option('yes'),
             ]);
         }
 
         $validator = $this->option('validator');
-        if (is_null($validator) && $this->confirm('Would you like to create a Validator? [y|N]')) {
+        if ($this->option('yes') || (is_null($validator) && $this->confirm('Would you like to create a Validator? [y|N]'))) {
             $validator = 'yes';
         }
 
@@ -57,7 +57,7 @@ class EntityCommand extends Command
             ]);
         }
 
-        if ($this->confirm('Would you like to create a Controller? [y|N]')) {
+        if ($this->option('yes') || $this->confirm('Would you like to create a Controller? [y|N]')) {
 
             // Generate a controller resource
             $this->call('make:resource', [
@@ -66,6 +66,7 @@ class EntityCommand extends Command
             ]);
         }
 
+
         $this->call('make:repository', [
             'name'        => $this->argument('name'),
             '--fillable'  => $this->option('fillable'),
@@ -73,6 +74,8 @@ class EntityCommand extends Command
             '--validator' => $validator,
             '--force'     => $this->option('force')
         ]);
+
+
 
         $this->call('make:bindings', [
             'name'    => $this->argument('name'),
@@ -133,6 +136,13 @@ class EntityCommand extends Command
                 'f',
                 InputOption::VALUE_NONE,
                 'Force the creation if file already exists.',
+                null
+            ],
+            [
+                'yes',
+                'y',
+                InputOption::VALUE_NONE,
+                'Answers yes to all.',
                 null
             ]
         ];
