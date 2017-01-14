@@ -231,6 +231,7 @@ return [
             'presenters'   => 'Presenters',
             'validators'   => 'Validators',
             'controllers'  => 'Http/Controllers',
+            'routes'       => 'Http/routes.php',
             'requests'     => 'Http/Requests',
             'provider'     => 'RepositoryServiceProvider',
             'criteria'     => 'Criteria',
