@@ -2,12 +2,10 @@
 
 namespace $NAMESPACE$;
 
-use Illuminate\Http\Request;
-
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use $NAMESPACE$Http\Requests\$CLASS$CreateRequest;
-use $NAMESPACE$Http\Requests\$CLASS$UpdateRequest;
+use $NAMESPACE$\Http\Requests\$CLASS$CreateRequest;
+use $NAMESPACE$\Http\Requests\$CLASS$UpdateRequest;
 $REPOSITORY$
 $VALIDATOR$
 
