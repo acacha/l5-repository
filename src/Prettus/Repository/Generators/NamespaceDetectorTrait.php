@@ -2,7 +2,7 @@
 
 namespace Prettus\Repository\Generators;
 
-use Illuminate\Console\AppNamespaceDetectorTrait;
+use Illuminate\Console\DetectsApplicationNamespace;
 
 /**
  * Class NamespaceDetectorTrait.
@@ -11,7 +11,7 @@ use Illuminate\Console\AppNamespaceDetectorTrait;
  */
 trait NamespaceDetectorTrait
 {
-    use AppNamespaceDetectorTrait;
+    use DetectsApplicationNamespace;
 
     /**
      * Get root namespace.
