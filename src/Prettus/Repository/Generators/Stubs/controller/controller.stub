@@ -9,7 +9,6 @@ use $NAMESPACE$\Http\Requests\$CLASS$UpdateRequest;
 $REPOSITORY$
 $VALIDATOR$
 
-
 class $CONTROLLER$Controller extends Controller
 {
 

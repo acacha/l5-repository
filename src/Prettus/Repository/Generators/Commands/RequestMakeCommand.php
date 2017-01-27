@@ -23,17 +23,6 @@ class RequestMakeCommand extends BaseRequestMakeCommand
     protected $name = 'make:l5-request';
 
     /**
-     * Parse the name and format according to the root namespace.
-     *
-     * @param  string  $name
-     * @return string
-     */
-    protected function parseName($name)
-    {
-        return $name;
-    }
-
-    /**
      * Get path.
      *
      * @param string $name
