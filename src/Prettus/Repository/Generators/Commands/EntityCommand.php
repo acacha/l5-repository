@@ -65,7 +65,7 @@ class EntityCommand extends Command
                 '--force' => $this->option('force')
             ]);
         }
-
+        
 
         $this->call('make:repository', [
             'name'        => $this->argument('name'),

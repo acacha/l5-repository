@@ -50,10 +50,17 @@ class ControllerCommand extends Command
                 'name' => $this->argument('name') . 'UpdateRequest'
             ]);
 
+            // Generate resource route for controller
+            $this->call('make:l5-route', [
+                'name' => $this->argument('name')
+            ]);
+
             (new ControllerGenerator([
                 'name' => $this->argument('name'),
                 'force' => $this->option('force'),
             ]))->run();
+
+
             $this->info($this->type . ' created successfully.');
         } catch (FileAlreadyExistsException $e) {
             $this->error($this->type . ' already exists!');

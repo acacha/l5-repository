@@ -1,11 +1,13 @@
 <?php
+
 namespace Prettus\Repository\Generators;
 
 /**
- * Class BindingsGenerator
+ * Class RoutesGenerator
+ * 
  * @package Prettus\Repository\Generators
  */
-class BindingsGenerator extends Generator
+class RoutesGenerator extends Generator
 {
 
     /**
@@ -13,23 +15,17 @@ class BindingsGenerator extends Generator
      *
      * @var string
      */
-    public $bindPlaceholder = '//:end-bindings:';
+    public $bindPlaceholder = '//:end-routes:';
+    
     /**
-     * Get stub name.
+     * Run the generator.
      *
-     * @var string
+     * @return int
+     * @throws FileAlreadyExistsException
      */
-    protected $stub = 'bindings/bindings';
-
     public function run()
     {
-
-
-        // Add entity repository binding to the repository service provider
-        $provider = \File::get($this->getPath());
-        $repositoryInterface = '\\' . $this->getRepository() . "::class";
-        $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
-        \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
+        return $this->filesystem->put($this->getPath(), $this->getStub());
     }
 
     /**
@@ -39,7 +35,7 @@ class BindingsGenerator extends Generator
      */
     public function getPath()
     {
-        return $this->getBasePath() . '/Providers/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '.php';
+        return $this->getBasePath() . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '.php';
     }
 
     /**
@@ -59,7 +55,7 @@ class BindingsGenerator extends Generator
      */
     public function getPathConfigNode()
     {
-        return 'provider';
+        return 'routes';
     }
 
     /**
@@ -67,26 +63,18 @@ class BindingsGenerator extends Generator
      *
      * @return string
      */
-    public function getRepository()
+    public function getRoute()
     {
-        $repositoryGenerator = new RepositoryInterfaceGenerator([
-            'name' => $this->name,
-        ]);
-
-        $repository = $repositoryGenerator->getRootNamespace() . '\\' . $repositoryGenerator->getName();
-
-        return str_replace([
-            "\\",
-            '/'
-        ], '\\', $repository) . 'Repository';
+        return str_plural(strtolower($this->options['name']));
     }
 
+
     /**
-     * Gets eloquent repository full class name
+     * Gets controller name
      *
      * @return string
      */
-    public function getEloquentRepository()
+    public function getController()
     {
         $repositoryGenerator = new RepositoryEloquentGenerator([
             'name' => $this->name,
@@ -101,16 +89,6 @@ class BindingsGenerator extends Generator
     }
 
     /**
-     * Get root namespace.
-     *
-     * @return string
-     */
-    public function getRootNamespace()
-    {
-        return parent::getRootNamespace() . parent::getConfigGeneratorClassPath($this->getPathConfigNode());
-    }
-
-    /**
      * Get array replacements.
      *
      * @return array
@@ -119,8 +97,8 @@ class BindingsGenerator extends Generator
     {
 
         return array_merge(parent::getReplacements(), [
-            'repository' => $this->getRepository(),
-            'eloquent' => $this->getEloquentRepository(),
+            'route' => $this->getRoute(),
+            'controller' => $this->getController(),
             'placeholder' => $this->bindPlaceholder,
         ]);
     }

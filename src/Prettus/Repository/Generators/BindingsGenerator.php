@@ -29,7 +29,10 @@ class BindingsGenerator extends Generator
         $provider = \File::get($this->getPath());
         $repositoryInterface = '\\' . $this->getRepository() . "::class";
         $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
-        \File::put($this->getPath(), str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
+        \File::put(
+            $this->getPath(), 
+            str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, 
+            $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
     }
 
     /**

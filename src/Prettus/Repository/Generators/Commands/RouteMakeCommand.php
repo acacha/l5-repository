@@ -2,77 +2,88 @@
 
 namespace Prettus\Repository\Generators\Commands;
 
-use Illuminate\Foundation\Console\RequestMakeCommand as BaseRequestMakeCommand;
-use Prettus\Repository\Generators\HasPaths;
-use Prettus\Repository\Generators\NamespaceDetectorTrait;
+use File;
+use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
+use Prettus\Repository\Generators\BindingsGenerator;
+use Prettus\Repository\Generators\FileAlreadyExistsException;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
-/**
- * Class RequestMakeCommand.
- *
- * @package App\Console\Commands
- */
-class RequestMakeCommand extends BaseRequestMakeCommand
+class RouteMakeCommand extends Command
 {
-    use NamespaceDetectorTrait, HasPaths;
 
     /**
-     * The console command name.
+     * The name of command.
      *
      * @var string
      */
-    protected $name = 'make:l5-request';
+    protected $name = 'make:l5-route';
 
     /**
-     * Parse the name and format according to the root namespace.
+     * The description of command.
      *
-     * @param  string  $name
-     * @return string
+     * @var string
      */
-    protected function parseName($name)
+    protected $description = 'Add resource routes to routes file.';
+
+    /**
+     * The type of class being generated.
+     *
+     * @var string
+     */
+    protected $type = 'Route';
+
+
+    /**
+     * Execute the command.
+     *
+     * @return void
+     */
+    public function fire()
     {
-        return $name;
+        $routesGenerator = new RoutesGenerator([
+            'name' => $this->argument('name'),
+        ]);
+        // generate routes file if not exists
+        if (!file_exists($routesGenerator->getPath())) {
+            touch($routesGenerator->getPath());
+            // placeholder to mark the place in file where to prepend resource routes
+            File::put(
+                $routesGenerator->getPath(),
+                $routesGenerator->bindPlaceholder
+            );
+        }
+        $routesGenerator->run();
+        $this->info($this->type . ' created successfully.');
     }
 
+
     /**
-     * Get path.
+     * The array of command arguments.
      *
-     * @param string $name
-     * @return string
+     * @return array
      */
-    protected function getPath($name)
+    public function getArguments()
     {
-        $name = str_replace_first($this->getRootNamespace(), '', $name);
-        return $this->getDestinationPath().'/'.str_replace('\\', '/', $name).'.php';
+        return [
+            [
+                'name',
+                InputArgument::REQUIRED,
+                'The name of model for which the controller is being generated.',
+                null
+            ],
+        ];
     }
 
-    /**
-     * Get destination path for generated file.
-     *
-     * @return string
-     */
-    public function getDestinationPath()
-    {
-        return $this->getBasePath() . '/' . $this->getConfigGeneratorClassPath($this->getPathConfigNode(), true);
-    }
 
     /**
-     * Get base path of destination file.
+     * The array of command options.
      *
-     * @return string
+     * @return array
      */
-
-    public function getBasePath()
+    public function getOptions()
     {
-        return config('repository.generator.basePath', app_path());
-    }
-
-    /**
-     * Get generator path config node.
-     *
-     * @return string
-     */
-    public function getPathConfigNode()
-    {
-        return 'requests';
+        return [];
     }
 }

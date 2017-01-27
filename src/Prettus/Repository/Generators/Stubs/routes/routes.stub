@@ -1,3 +1,2 @@
-
- 		$this->app->bind($REPOSITORY$, $ELOQUENT$);
- 		$PLACEHOLDER$
+Route::resource($ROUTE$, '$CONTROLLER$');
+$PLACEHOLDER$
