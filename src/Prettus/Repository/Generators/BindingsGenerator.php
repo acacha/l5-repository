@@ -1,19 +1,21 @@
 <?php
+
 namespace Prettus\Repository\Generators;
 
 /**
- * Class BindingsGenerator
+ * Class BindingsGenerator.
+ *
  * @package Prettus\Repository\Generators
  */
 class BindingsGenerator extends Generator
 {
-
     /**
      * The placeholder for repository bindings
      *
      * @var string
      */
     public $bindPlaceholder = '//:end-bindings:';
+
     /**
      * Get stub name.
      *
@@ -21,11 +23,10 @@ class BindingsGenerator extends Generator
      */
     protected $stub = 'bindings/bindings';
 
-    public function run()
-    {
-
-
-        // Add entity repository binding to the repository service provider
+    /**
+     * Run the generator.
+     */
+    public function run() {
         $provider = \File::get($this->getPath());
         $repositoryInterface = '\\' . $this->getRepository() . "::class";
         $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";

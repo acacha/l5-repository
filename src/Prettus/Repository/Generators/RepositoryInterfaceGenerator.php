@@ -98,4 +98,16 @@ class RepositoryInterfaceGenerator extends Generator
     {
         return new SchemaParser($this->fillable);
     }
+
+    /**
+     * Run the generator.
+     *
+     * @return int
+     * @throws FileAlreadyExistsException
+     */
+    public function run()
+    {
+        $this->backup = true;
+        return parent::run();
+    }
 }

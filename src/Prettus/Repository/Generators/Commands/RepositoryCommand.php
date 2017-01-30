@@ -56,19 +56,24 @@ class RepositoryCommand extends Command
             'fields' => $this->option('fillable'),
             'force'  => $this->option('force'),
         ]));
-
         $modelGenerator = new ModelGenerator([
             'name'     => $this->argument('name'),
             'fillable' => $this->option('fillable'),
-            'force'    => $this->option('force')
+            'force'    => $this->option('force'),
+            'yes'      => $this->option('yes')
         ]);
+        $modelGenerator->setCommand($this);
 
         $this->generators->push($modelGenerator);
 
-        $this->generators->push(new RepositoryInterfaceGenerator([
-            'name'  => $this->argument('name'),
+        $repositoryInterfaceGenerator = new RepositoryInterfaceGenerator([
+            'name' => $this->argument('name'),
             'force' => $this->option('force'),
-        ]));
+            'yes' => $this->option('yes')
+        ]);
+        $repositoryInterfaceGenerator->setCommand($this);
+
+        $this->generators->push($repositoryInterfaceGenerator);
 
         foreach ($this->generators as $generator) {
             $generator->run();
@@ -149,6 +154,13 @@ class RepositoryCommand extends Command
                 'f',
                 InputOption::VALUE_NONE,
                 'Force the creation if file already exists.',
+                null
+            ],
+            [
+                'yes',
+                'y',
+                InputOption::VALUE_NONE,
+                'Answers yes to all.',
                 null
             ]
         ];

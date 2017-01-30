@@ -9,7 +9,6 @@ namespace Prettus\Repository\Generators;
  */
 class RoutesGenerator extends Generator
 {
-
     /**
      * The placeholder for repository bindings
      *
@@ -25,7 +24,12 @@ class RoutesGenerator extends Generator
      */
     public function run()
     {
-        return $this->filesystem->put($this->getPath(), $this->getStub());
+        $routes = \File::get($this->getPath());
+        $plural = str_plural($this->option('name'));
+        $replace = "Route::resource('" . strtolower($plural) . "', '" . ucfirst($plural) . "Controller');";
+        \File::put(
+            $this->getPath(),
+            str_replace($this->bindPlaceholder, $replace . PHP_EOL . '        ' . $this->bindPlaceholder, $routes));
     }
 
     /**
@@ -35,7 +39,7 @@ class RoutesGenerator extends Generator
      */
     public function getPath()
     {
-        return $this->getBasePath() . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '.php';
+        return $this->getBasePath() . '/' . parent::getConfigGeneratorClassPath($this->getPathConfigNode(), true) . '.php';
     }
 
     /**

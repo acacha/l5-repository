@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Generators\BindingsGenerator;
 use Prettus\Repository\Generators\FileAlreadyExistsException;
+use Prettus\Repository\Generators\RoutesGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 

@@ -72,7 +72,8 @@ class EntityCommand extends Command
             '--fillable'  => $this->option('fillable'),
             '--rules'     => $this->option('rules'),
             '--validator' => $validator,
-            '--force'     => $this->option('force')
+            '--force'     => $this->option('force'),
+            '--yes'       => $this->option('yes')
         ]);
 
 

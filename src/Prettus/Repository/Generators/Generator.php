@@ -2,10 +2,15 @@
 
 namespace Prettus\Repository\Generators;
 
-use Illuminate\Console\AppNamespaceDetectorTrait;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use Illuminate\Console\Command;
 
+/**
+ * Class Generator.
+ *
+ * @package Prettus\Repository\Generators
+ */
 abstract class Generator
 {
     use NamespaceDetectorTrait, HasPaths;
@@ -31,6 +36,27 @@ abstract class Generator
      */
     protected $stub;
 
+    /**
+     * Backup before overwrite?
+     *
+     * @var boolean
+     */
+    protected $backup = false;
+
+    /**
+     * The command that runs the generator
+     *
+     * @var Command
+     */
+    protected $command;
+
+    /**
+     * @param Command $command
+     */
+    public function setCommand($command)
+    {
+        $this->command = $command;
+    }
 
     /**
      * Create new instance of this class.
@@ -195,7 +221,6 @@ abstract class Generator
         //
     }
 
-
     /**
      * Run the generator.
      *
@@ -205,14 +230,12 @@ abstract class Generator
     public function run()
     {
         $this->setUp();
-        if ($this->filesystem->exists($path = $this->getPath()) && !$this->force) {
-            throw new FileAlreadyExistsException($path);
-        }
-        if (!$this->filesystem->isDirectory($dir = dirname($path))) {
-            $this->filesystem->makeDirectory($dir, 0777, true, true);
-        }
 
-        return $this->filesystem->put($path, $this->getStub());
+        $path = $this->checkFileExists($this->backup);
+
+        $this->createParentFolder($path);
+
+        return $this->applyStub($path);
     }
 
 
@@ -286,5 +309,59 @@ abstract class Generator
         }
 
         return $this->option($key);
+    }
+
+    /**
+     * @param $path
+     * @return int
+     */
+    protected function applyStub($path)
+    {
+        return $this->filesystem->put($path, $this->getStub());
+    }
+
+    /**
+     * @param $path
+     */
+    protected function createParentFolder($path)
+    {
+        if (!$this->filesystem->isDirectory($dir = dirname($path))) {
+            $this->filesystem->makeDirectory($dir, 0777, true, true);
+        }
+    }
+
+    /**
+     * @param $path
+     */
+    protected function backup($path)
+    {
+        $this->filesystem->move($path, $path . '.backup');
+    }
+
+    /**
+     * @return string
+     * @throws FileAlreadyExistsException
+     */
+    protected function checkFileExists($backup = false)
+    {
+        if ($this->filesystem->exists($path = $this->getPath()) && !$this->force) {
+            if (! $backup) {
+                throw new FileAlreadyExistsException($path);
+            }
+            $this->askForBackup($path);
+        }
+        return $path;
+    }
+
+    /**
+     * @param $path
+     */
+    protected function askForBackup($path)
+    {
+        if ($this->option('yes') ||
+            $this->command->confirm('Model Already exists.Would you like to overwrite it (a copy would be done with extension .backup)? [y|N]')
+        ) {
+            $this->backup($path);
+        }
     }
 }
