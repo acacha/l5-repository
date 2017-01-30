@@ -2,8 +2,10 @@
 
 namespace Prettus\Repository\Generators;
 
+use FilesystemIterator;
 use Prettus\Repository\Generators\Migrations\NameParser;
 use Prettus\Repository\Generators\Migrations\SchemaParser;
+use RegexIterator;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
@@ -163,5 +165,32 @@ class MigrationGenerator extends Generator
         }
 
         return Stub::create($path . "/Stubs/migration/{$file}.stub", $replacements);
+    }
+
+    /**
+     * @return string
+     * @throws FileAlreadyExistsException
+     */
+    protected function checkFileExists($backup = false)
+    {
+        if ( $this->checkMigrationExists() && !$this->force) {
+            if (! $backup) {
+                throw new FileAlreadyExistsException($this->getMigrationName());
+            }
+            $this->askForBackup($path = $this->getPath());
+        }
+        return $path;
+    }
+
+    /**
+     * Check if migratio exists.
+     *
+     * @return bool
+     */
+    protected function checkMigrationExists()
+    {
+        $iterator = new FilesystemIterator(dirname($this->getPath()));
+        $filter = new RegexIterator($iterator, '/' . $this->getMigrationName() . '.php$/');
+        return !empty($filter);
     }
 }

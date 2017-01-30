@@ -1,4 +1,5 @@
 <?php
+
 namespace Prettus\Repository\Generators\Commands;
 
 use Illuminate\Console\Command;
@@ -6,6 +7,11 @@ use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * Class EntityCommand.
+ *
+ * @package Prettus\Repository\Generators\Commands
+ */
 class EntityCommand extends Command
 {
 
@@ -27,7 +33,6 @@ class EntityCommand extends Command
      * @var Collection
      */
     protected $generators = null;
-
 
     /**
      * Execute the command.
@@ -58,14 +63,12 @@ class EntityCommand extends Command
         }
 
         if ($this->option('yes') || $this->confirm('Would you like to create a Controller? [y|N]')) {
-
             // Generate a controller resource
             $this->call('make:resource', [
                 'name'    => $this->argument('name'),
                 '--force' => $this->option('force')
             ]);
         }
-        
 
         $this->call('make:repository', [
             'name'        => $this->argument('name'),
@@ -76,14 +79,11 @@ class EntityCommand extends Command
             '--yes'       => $this->option('yes')
         ]);
 
-
-
         $this->call('make:bindings', [
             'name'    => $this->argument('name'),
             '--force' => $this->option('force')
         ]);
     }
-
 
     /**
      * The array of command arguments.
@@ -101,7 +101,6 @@ class EntityCommand extends Command
             ],
         ];
     }
-
 
     /**
      * The array of command options.

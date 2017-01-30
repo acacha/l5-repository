@@ -55,7 +55,9 @@ class RepositoryCommand extends Command
             'name'   => 'create_' . snake_case(str_plural($this->argument('name'))) . '_table',
             'fields' => $this->option('fillable'),
             'force'  => $this->option('force'),
+            'yes'      => $this->option('yes')
         ]));
+
         $modelGenerator = new ModelGenerator([
             'name'     => $this->argument('name'),
             'fillable' => $this->option('fillable'),
