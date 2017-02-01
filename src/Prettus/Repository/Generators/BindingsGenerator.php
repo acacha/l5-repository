@@ -28,12 +28,10 @@ class BindingsGenerator extends Generator
      */
     public function run() {
         $provider = \File::get($this->getPath());
-        $repositoryInterface = '\\' . $this->getRepository() . "::class";
-        $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
         \File::put(
             $this->getPath(), 
-            str_replace($this->bindPlaceholder, "\$this->app->bind({$repositoryInterface}, 
-            $repositoryEloquent);" . PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
+            str_replace($this->bindPlaceholder, $this->getBindingReplacement() .
+                PHP_EOL . '        ' . $this->bindPlaceholder, $provider));
     }
 
     /**
@@ -127,5 +125,18 @@ class BindingsGenerator extends Generator
             'eloquent' => $this->getEloquentRepository(),
             'placeholder' => $this->bindPlaceholder,
         ]);
+    }
+
+    /**
+     * Get binding replacement.
+     *
+     * @return string
+     */
+    public function getBindingReplacement()
+    {
+        $repositoryInterface = '\\' . $this->getRepository() . "::class";
+        $repositoryEloquent = '\\' . $this->getEloquentRepository() . "::class";
+        return "\$this->app->bind({$repositoryInterface}, 
+            $repositoryEloquent);";
     }
 }

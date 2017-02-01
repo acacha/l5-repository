@@ -58,8 +58,13 @@ class BindingsCommand extends Command
                     $bindingGenerator->bindPlaceholder
                 ]));
             }
-            $bindingGenerator->run();
-            $this->info($this->type . ' created successfully.');
+
+            if ($this->checkPlaceholderExists($bindingGenerator) && $this->checkBindingDoesNotExists($bindingGenerator)) {
+                $bindingGenerator->run();
+                $this->info($this->type . ' created successfully.');
+            }
+
+
         } catch (FileAlreadyExistsException $e) {
             $this->error($this->type . ' already exists!');
 
@@ -67,6 +72,34 @@ class BindingsCommand extends Command
         }
     }
 
+    /**
+     * Check placeholder exists.
+     *
+     * @return bool
+     */
+    protected function checkPlaceholderExists($bindingGenerator)
+    {
+        if (strpos(file_get_contents($bindingGenerator->getPath()),$bindingGenerator->bindPlaceholder) !== false)
+            return true;
+        $this->error('File (' . $bindingGenerator->getPath() . ') does not contains placeholder ' .
+            $bindingGenerator->bindPlaceholder);
+        return false;
+    }
+
+    /**
+     * Check binding not already exists.
+     *
+     * @param $routesGenerator
+     * @return bool
+     */
+    protected function checkBindingDoesNotExists($bindingGenerator)
+    {
+        if (strpos(file_get_contents($bindingGenerator->getPath()),$bindingGenerator->getBindingReplacement()) !== false) {
+            $this->warn('Binding in file (' . $bindingGenerator->getPath() . ') already exists. Skip adding binding');
+            return false;
+        }
+        return true;
+    }
 
     /**
      * The array of command arguments.
