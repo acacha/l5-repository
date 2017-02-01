@@ -50,6 +50,16 @@ class $CONTROLLER$Controller extends Controller
     }
 
     /**
+     * Show the form for creating the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('$PLURAL$.create');
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  $CLASS$CreateRequest $request
