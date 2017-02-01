@@ -43,11 +43,11 @@ class ControllerCommand extends Command
         try {
             // Generate create request for controller
             $this->call('make:l5-request', [
-                'name' => $this->argument('name') . 'CreateRequest'
+                'name' => ucfirst($this->argument('name')) . 'CreateRequest'
             ]);
             // Generate update request for controller
             $this->call('make:l5-request', [
-                'name' => $this->argument('name') . 'UpdateRequest'
+                'name' => ucfirst($this->argument('name')) . 'UpdateRequest'
             ]);
 
             // Generate resource route for controller

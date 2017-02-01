@@ -23,6 +23,27 @@ class RequestMakeCommand extends BaseRequestMakeCommand
     protected $name = 'make:l5-request';
 
     /**
+     * Get the root namespace for the class.
+     *
+     * @return string
+     */
+    protected function rootNamespace()
+    {
+        return $this->getRootNamespace();
+    }
+
+    /**
+     * Get the default namespace for the class.
+     *
+     * @param  string  $rootNamespace
+     * @return string
+     */
+    protected function getDefaultNamespace($rootNamespace)
+    {
+        return $rootNamespace . '\\'. str_replace('/', '\\', $this->getConfigGeneratorClassPath($this->getPathConfigNode(), true));
+    }
+
+    /**
      * Get path.
      *
      * @param string $name
@@ -41,7 +62,7 @@ class RequestMakeCommand extends BaseRequestMakeCommand
      */
     public function getDestinationPath()
     {
-        return $this->getBasePath() . '/' . $this->getConfigGeneratorClassPath($this->getPathConfigNode(), true);
+        return $this->getBasePath();
     }
 
     /**
