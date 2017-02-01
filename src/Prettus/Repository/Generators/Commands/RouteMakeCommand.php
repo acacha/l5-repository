@@ -55,10 +55,40 @@ class RouteMakeCommand extends Command
                 $routesGenerator->bindPlaceholder
             );
         }
-        $routesGenerator->run();
-        $this->info($this->type . ' created successfully.');
+        if ($this->checkPlaceholderExists($routesGenerator) && $this->checkRouteDoesNotExists($routesGenerator)) {
+            $routesGenerator->run();
+            $this->info($this->type . ' created successfully.');
+        }
     }
 
+    /**
+     * Check placeholder exists.
+     *
+     * @return bool
+     */
+    protected function checkPlaceholderExists($routesGenerator)
+    {
+        if (strpos(file_get_contents($routesGenerator->getPath()),$routesGenerator->bindPlaceholder) !== false)
+            return true;
+        $this->error('Routes file (' . $routesGenerator->getPath() . ') does not contains placeholder ' .
+            $routesGenerator->bindPlaceholder);
+        return false;
+    }
+
+    /**
+     * Check route not already exists.
+     *
+     * @param $routesGenerator
+     * @return bool
+     */
+    protected function checkRouteDoesNotExists($routesGenerator)
+    {
+        if (strpos(file_get_contents($routesGenerator->getPath()),$routesGenerator->getRouteReplacement()) !== false) {
+            $this->warn('Route in routes file (' . $routesGenerator->getPath() . ') already exists. Skip adding route');
+            return false;
+        }
+        return true;
+    }
 
     /**
      * The array of command arguments.

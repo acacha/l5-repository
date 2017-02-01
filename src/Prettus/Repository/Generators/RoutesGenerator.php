@@ -25,8 +25,7 @@ class RoutesGenerator extends Generator
     public function run()
     {
         $routes = \File::get($this->getPath());
-        $plural = str_plural($this->option('name'));
-        $replace = "Route::resource('" . strtolower($plural) . "', '" . ucfirst($plural) . "Controller');";
+        $replace = $this->getRouteReplacement();
         \File::put(
             $this->getPath(),
             str_replace($this->bindPlaceholder, $replace . PHP_EOL . '        ' . $this->bindPlaceholder, $routes));
@@ -105,5 +104,14 @@ class RoutesGenerator extends Generator
             'controller' => $this->getController(),
             'placeholder' => $this->bindPlaceholder,
         ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getRouteReplacement()
+    {
+        $plural = str_plural($this->option('name'));
+        return "Route::resource('" . strtolower($plural) . "', '" . ucfirst($plural) . "Controller');";
     }
 }
