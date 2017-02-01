@@ -5,6 +5,7 @@ namespace Prettus\Repository\Generators\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Generators\FileAlreadyExistsException;
+use Prettus\Repository\Generators\MigrationAlreadyExistsException;
 use Prettus\Repository\Generators\MigrationGenerator;
 use Prettus\Repository\Generators\ModelGenerator;
 use Prettus\Repository\Generators\RepositoryEloquentGenerator;
@@ -78,7 +79,11 @@ class RepositoryCommand extends Command
         $this->generators->push($repositoryInterfaceGenerator);
 
         foreach ($this->generators as $generator) {
-            $generator->run();
+            try {
+                $generator->run();
+            } catch (MigrationAlreadyExistsException $e) {
+                $this->error('Migration already exists');
+            }
         }
 
         $model = $modelGenerator->getRootNamespace() . '\\' . $modelGenerator->getName();
