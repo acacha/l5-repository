@@ -75,6 +75,7 @@ class BindingsCommand extends Command
     /**
      * Check placeholder exists.
      *
+     * @param $bindingGenerator
      * @return bool
      */
     protected function checkPlaceholderExists($bindingGenerator)
@@ -89,7 +90,7 @@ class BindingsCommand extends Command
     /**
      * Check binding not already exists.
      *
-     * @param $routesGenerator
+     * @param $bindingGenerator
      * @return bool
      */
     protected function checkBindingDoesNotExists($bindingGenerator)

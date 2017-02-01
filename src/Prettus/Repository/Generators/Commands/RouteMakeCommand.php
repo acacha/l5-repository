@@ -64,6 +64,7 @@ class RouteMakeCommand extends Command
     /**
      * Check placeholder exists.
      *
+     * @param $routesGenerator
      * @return bool
      */
     protected function checkPlaceholderExists($routesGenerator)
