@@ -4,8 +4,8 @@ namespace $NAMESPACE$;
 
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use $NAMESPACE$\Http\Requests\$CLASS$CreateRequest;
-use $NAMESPACE$\Http\Requests\$CLASS$UpdateRequest;
+use $REQUESTSNAMESPACE$\$CLASS$CreateRequest;
+use $REQUESTSNAMESPACE$\$CLASS$UpdateRequest;
 $REPOSITORY$
 $VALIDATOR$
 

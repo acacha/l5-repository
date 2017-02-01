@@ -1,4 +1,5 @@
 <?php
+
 namespace Prettus\Repository\Generators;
 
 /**
@@ -86,13 +87,23 @@ class ControllerGenerator extends Generator
     {
 
         return array_merge(parent::getReplacements(), [
-            'controller' => $this->getControllerName(),
-            'plural'     => $this->getPluralName(),
-            'singular'   => $this->getSingularName(),
-            'validator'  => $this->getValidator(),
-            'repository' => $this->getRepository(),
-            'namespace'  => $this->getRootNamespace(),
+            'controller'        => $this->getControllerName(),
+            'plural'            => $this->getPluralName(),
+            'singular'          => $this->getSingularName(),
+            'validator'         => $this->getValidator(),
+            'repository'        => $this->getRepository(),
+            'namespace'         => $this->getRootNamespace(),
+            'requestsnamespace'  => $this->getRequestsNamespace(),
         ]);
+    }
+
+    /**
+     * Get requests namespaces.
+     */
+    protected function getRequestsNamespace()
+    {
+        return config('repository.generator.rootNamespace', $this->getAppNamespace()) .
+                 str_replace('/', '\\', $this->getConfigGeneratorClassPath('requests', true));
     }
 
     /**

@@ -38,7 +38,7 @@ class RequestMakeCommand extends BaseRequestMakeCommand
      * @param  string  $rootNamespace
      * @return string
      */
-    protected function getDefaultNamespace($rootNamespace)
+    public function getDefaultNamespace($rootNamespace)
     {
         return $rootNamespace . '\\'. str_replace('/', '\\', $this->getConfigGeneratorClassPath($this->getPathConfigNode(), true));
     }
@@ -60,7 +60,7 @@ class RequestMakeCommand extends BaseRequestMakeCommand
      *
      * @return string
      */
-    public function getDestinationPath()
+    protected function getDestinationPath()
     {
         return $this->getBasePath();
     }
@@ -71,7 +71,7 @@ class RequestMakeCommand extends BaseRequestMakeCommand
      * @return string
      */
 
-    public function getBasePath()
+    protected function getBasePath()
     {
         return config('repository.generator.basePath', app_path());
     }
@@ -81,7 +81,7 @@ class RequestMakeCommand extends BaseRequestMakeCommand
      *
      * @return string
      */
-    public function getPathConfigNode()
+    protected function getPathConfigNode()
     {
         return 'requests';
     }
