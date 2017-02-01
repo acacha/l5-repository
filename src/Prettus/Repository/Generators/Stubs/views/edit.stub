@@ -1,0 +1,7 @@
+{{--{{ dump($$PLURAL$) }}--}}
+
+<ul>
+    @foreach ($$PLURAL$ as $$SINGULAR$)
+        <li>This is $SINGULAR$ {{ $$SINGULAR$->id }}</li>
+    @endforeach
+</ul>
