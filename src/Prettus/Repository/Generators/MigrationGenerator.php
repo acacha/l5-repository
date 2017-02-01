@@ -9,7 +9,8 @@ use RegexIterator;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 /**
- * Class MigrationGenerator
+ * Class MigrationGenerator.
+ *
  * @package Prettus\Repository\Generators
  */
 class MigrationGenerator extends Generator
@@ -168,22 +169,24 @@ class MigrationGenerator extends Generator
     }
 
     /**
+     * Checl if file/migration exists
      * @return string
-     * @throws FileAlreadyExistsException
+     * @throws MigrationAlreadyExistsException
      */
     protected function checkFileExists($backup = false)
     {
+        $path = $this->getPath();
         if ( $this->checkMigrationExists() && !$this->force) {
             if (! $backup) {
-                throw new FileAlreadyExistsException($this->getMigrationName());
+                throw new MigrationAlreadyExistsException($this->getMigrationName());
             }
-            $this->askForBackup($path = $this->getPath());
+            $this->askForBackup($path);
         }
         return $path;
     }
 
     /**
-     * Check if migratio exists.
+     * Check if migration exists.
      *
      * @return bool
      */
@@ -191,6 +194,6 @@ class MigrationGenerator extends Generator
     {
         $iterator = new FilesystemIterator(dirname($this->getPath()));
         $filter = new RegexIterator($iterator, '/' . $this->getMigrationName() . '.php$/');
-        return !empty($filter);
+        return iterator_count($filter);
     }
 }
