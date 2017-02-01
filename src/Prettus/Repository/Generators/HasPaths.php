@@ -52,6 +52,9 @@ trait HasPaths
             case ('routes' === $class):
                 $path = config('repository.generator.paths.routes', 'Http/routes');
                 break;
+            case ('views' === $class):
+                $path = config('repository.generator.paths.views', '../resources/views');
+                break;
             default:
                 $path = '';
         }

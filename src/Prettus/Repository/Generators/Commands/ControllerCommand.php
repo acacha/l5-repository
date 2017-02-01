@@ -5,6 +5,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Generators\ControllerGenerator;
 use Prettus\Repository\Generators\FileAlreadyExistsException;
+use Prettus\Repository\Generators\IndexViewGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -55,11 +56,34 @@ class ControllerCommand extends Command
                 'name' => $this->argument('name')
             ]);
 
+            (new IndexViewGenerator([
+                'name' => $this->argument('name'),
+                'force' => $this->option('force'),
+            ]))->run();
+            $this->info('Index view created successfully.');
+
             (new ControllerGenerator([
                 'name' => $this->argument('name'),
                 'force' => $this->option('force'),
             ]))->run();
+            $this->info('Controller created successfully.');
 
+
+
+//            (new ShowViewGenerator([
+//                'name' => $this->argument('name'),
+//                'force' => $this->option('force'),
+//            ]))->run();
+//
+//            (new CreateViewGenerator([
+//                'name' => $this->argument('name'),
+//                'force' => $this->option('force'),
+//            ]))->run();
+//
+//            (new EditViewGenerator([
+//                'name' => $this->argument('name'),
+//                'force' => $this->option('force'),
+//            ]))->run();
 
             $this->info($this->type . ' created successfully.');
         } catch (FileAlreadyExistsException $e) {

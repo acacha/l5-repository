@@ -46,7 +46,7 @@ class $CONTROLLER$Controller extends Controller
             ]);
         }
 
-        return view('$PLURAL$.index', compact('$PLURAL$'));
+        return view('$VIEWSPREFIX$$PLURAL$.index', compact('$PLURAL$'));
     }
 
     /**
@@ -56,7 +56,7 @@ class $CONTROLLER$Controller extends Controller
      */
     public function create()
     {
-        return view('$PLURAL$.create');
+        return view('$VIEWSPREFIX$$PLURAL$.create');
     }
 
     /**
@@ -117,7 +117,7 @@ class $CONTROLLER$Controller extends Controller
             ]);
         }
 
-        return view('$PLURAL$.show', compact('$SINGULAR$'));
+        return view('$VIEWSPREFIX$$PLURAL$.show', compact('$SINGULAR$'));
     }
 
 
@@ -133,7 +133,7 @@ class $CONTROLLER$Controller extends Controller
 
         $$SINGULAR$ = $this->repository->find($id);
 
-        return view('$PLURAL$.edit', compact('$SINGULAR$'));
+        return view('$VIEWSPREFIX$$PLURAL$.edit', compact('$SINGULAR$'));
     }
 
 

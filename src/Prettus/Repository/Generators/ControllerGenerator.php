@@ -93,8 +93,20 @@ class ControllerGenerator extends Generator
             'validator'         => $this->getValidator(),
             'repository'        => $this->getRepository(),
             'namespace'         => $this->getRootNamespace(),
-            'requestsnamespace'  => $this->getRequestsNamespace(),
+            'requestsnamespace' => $this->getRequestsNamespace(),
+            'viewsprefix'       => $this->getViewsPrefix()
         ]);
+    }
+
+    /**
+     * Get views prefix.
+     *
+     * @return mixed
+     */
+    protected function getViewsPrefix()
+    {
+
+        return config('repository.generator.viewsPrefix', '');
     }
 
     /**
